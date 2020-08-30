@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap'
 import { Product } from '../components/Product'
 import products from '../products'
 
-export const Home = () => {
+export const HomePages = () => {
   return (
     <>
       <h2>Latest Products</h2>
