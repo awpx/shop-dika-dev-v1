@@ -13,7 +13,7 @@ export const ProductPages = ({ match }) => {
       setProduct(data)
     }
     fetchProduct()
-  }, [])
+  }, [match])
 
   return (
     <>
