@@ -4,11 +4,17 @@ const reviewSchema = mongoose.Schema({
   name: { type: String, required: true },
   rating: { type: Number, required: true },
   comment: { type: String, required: true },
-}, { timestamp: true })
-
-const userSchema = mongoose.Schema({
   user: {
-    types: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
+},
+{ timestamps: true, })
+
+const productSchema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
