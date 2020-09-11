@@ -20,7 +20,7 @@ export const Header = () => {
       <Navbar expand="lg" className='navbar-dark bg-primary' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>AWP Shop</Navbar.Brand>
+            <Navbar.Brand>A Shop</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
