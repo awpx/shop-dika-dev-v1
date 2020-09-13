@@ -42,14 +42,14 @@ export const PaymentPages = ({ history }) => {
               onChange={e => setPaymentMethod(e.target.value)}
             ></Form.Check>
 
-            <Form.Check
+            {/* <Form.Check
               type='radio'
               label='Stripe'
               id='stripe'
               name='paymentMethod'
               value='Stripe'
               onChange={e => setPaymentMethod(e.target.value)}
-            ></Form.Check>
+            ></Form.Check> */}
 
           </Col>
           </Form.Group>
