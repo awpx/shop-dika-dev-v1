@@ -50,6 +50,7 @@ export const RegisterPages = ({ location, history }) => {
             type='text'
             placeholder='Enter your name'
             value={name}
+            required
             onChange={e => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -60,6 +61,7 @@ export const RegisterPages = ({ location, history }) => {
             type='email'
             placeholder='Enter Email'
             value={email}
+            required
             onChange={e => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -70,6 +72,7 @@ export const RegisterPages = ({ location, history }) => {
             type='password'
             placeholder='Enter Password'
             value={password}
+            required
             onChange={e => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -80,6 +83,7 @@ export const RegisterPages = ({ location, history }) => {
             type='password'
             placeholder='Re-Enter Password'
             value={confirmPassword}
+            required
             onChange={e => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
