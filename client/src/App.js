@@ -12,6 +12,7 @@ import { ProfilePages } from './pages/ProfilePages'
 import { ShippingPages } from './pages/ShippingPages'
 import { PaymentPages } from './pages/PaymentPages'
 import { PlaceOrderPages } from './pages/PlaceOrderPages'
+import { OrderPages } from './pages/OrderPages'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Header />
         <main className='py-3'>
           <Container>
+            <Route path='/order/:id' component={OrderPages} />
             <Route path='/shipping' component={ShippingPages} />
             <Route path='/payment' component={PaymentPages} />
             <Route path='/placeorder' component={PlaceOrderPages} />
