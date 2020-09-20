@@ -65,7 +65,7 @@ export const UserListPages = ({ history }) => {
                     : (<i className='fas fa-times' style={{color: 'red'}}></i>)}
                   </td>
                   <td>
-                    <LinkContainer to={`/user/${user._id}/edit`}>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
                       <Button variant='dark' className='btn-sm'>
                         <i className='fas fa-edit'></i>
                       </Button>
