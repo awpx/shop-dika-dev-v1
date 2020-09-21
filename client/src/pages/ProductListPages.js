@@ -4,7 +4,12 @@ import { Button, Table, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listProducts, deleteProduct } from '../actions/productActions'
+import { 
+  listProducts, 
+  deleteProduct,
+  createProduct, 
+} from '../actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 export const ProductListPages = ({ history, match }) => {
   const dispatch = useDispatch()
@@ -18,19 +23,32 @@ export const ProductListPages = ({ history, match }) => {
   const productDelete = useSelector(state => state.productDelete)
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete
 
+  const productCreate = useSelector(state => state.productCreate)
+  const { 
+    loading: loadingCreate, 
+    error: errorCreate, 
+    success: successCreate,
+    product: createdProduct, 
+  } = productCreate
+
   useEffect(() => {
-    if(!userInfo) {
+    dispatch({type: PRODUCT_CREATE_RESET})
+
+
+    if (!userInfo || !userInfo.isAdmin) {
       history.push('/login')
-    } else if (!userInfo.isAdmin) {
-      history.push('/')
+    }
+
+    if (successCreate) {
+      history.push(`/admin/product/${createdProduct._id}/edit`)
     } else {
-    dispatch(listProducts())
+      dispatch(listProducts())
     }
     
-  }, [dispatch, history, userInfo, successDelete])
+  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct])
 
-  const createProductHandler = (product) => {
-
+  const createProductHandler = () => {
+    dispatch(createProduct())
   }
 
   const deleteHandler = (id) => {
@@ -55,6 +73,9 @@ export const ProductListPages = ({ history, match }) => {
 
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
       {loading 
         ? (<Loader />)
