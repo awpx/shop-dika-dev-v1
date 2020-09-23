@@ -6,15 +6,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
-import { ORDER_PAY_RESET, } from '../constants/orderConstants'
+import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET} from '../constants/orderConstants'
 
-export const OrderPages = ({ match}) => {
+export const OrderPages = ({ match, history }) => {
   const orderId = match.params.id
 
   const [sdkReady, setSdkReady] = useState(false)
 
   const dispatch = useDispatch()
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
 
   const orderDetails = useSelector(state => state.orderDetails)
   const { order, loading, error } = orderDetails
@@ -22,7 +25,14 @@ export const OrderPages = ({ match}) => {
   const orderPay = useSelector(state => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
 
+  const orderDeliver = useSelector(state => state.orderDeliver)
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+
   useEffect(() => {
+    if(!userInfo) {
+      history.push('/login')
+    }
+
     //paypal
     const addPaypalScript = async () => {
       const { data: clientId } = await axios.get('/api/v1/config/paypal')
@@ -38,8 +48,9 @@ export const OrderPages = ({ match}) => {
 
     //====================
 
-    if(!order || successPay) {
+    if(!order || successPay || successDeliver) {
       dispatch({type: ORDER_PAY_RESET})
+      dispatch({type: ORDER_DELIVER_RESET})
       dispatch(getOrderDetails(orderId))
     } else if(!order.isPaid) {
       if(!window.paypal) {
@@ -49,10 +60,14 @@ export const OrderPages = ({ match}) => {
       }
     }
 
-  }, [dispatch, orderId, order, successPay])
+  }, [dispatch, orderId, order, successPay, successDeliver, history, userInfo])
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult))
+  }
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order))
   }
 
   return (
@@ -80,7 +95,7 @@ export const OrderPages = ({ match}) => {
                 </p>
 
                 {order.isDelivered 
-                  ? (<Message variant='success'>Paid on {order.deliveredAt}</Message>)
+                  ? (<Message variant='success'>Delivered on {order.deliveredAt.substring(0, 10)}</Message>)
                   : (<Message variant='danger'>Not Delivered</Message>)
                 }
 
@@ -95,7 +110,7 @@ export const OrderPages = ({ match}) => {
                 </p>
 
                 {order.isPaid 
-                  ? (<Message variant='success'>Paid on {order.paidAt}</Message>)
+                  ? (<Message variant='success'>Paid on {order.paidAt.substring(0, 10)}</Message>)
                   : (<Message variant='danger'>Not Paid</Message>)
                 }
                   
@@ -179,6 +194,19 @@ export const OrderPages = ({ match}) => {
                         onSuccess={successPaymentHandler}
                       />
                     )}
+                  </ListGroup.Item>
+                )}
+                
+                {loadingDeliver && <Loader />}
+                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type='button'
+                      className='btn btn-block'
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
                   </ListGroup.Item>
                 )}
 
