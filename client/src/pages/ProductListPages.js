@@ -4,6 +4,7 @@ import { Button, Table, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { Paginate } from '../components/Paginate'
 import { 
   listProducts, 
   deleteProduct,
@@ -12,13 +13,15 @@ import {
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 export const ProductListPages = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1
+
   const dispatch = useDispatch()
 
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
   const productList = useSelector(state => state.productList)
-  const { loading, error, products } = productList
+  const { loading, error, products, page, pages } = productList
 
   const productDelete = useSelector(state => state.productDelete)
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete
@@ -42,10 +45,10 @@ export const ProductListPages = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`)
     } else {
-      dispatch(listProducts())
+      dispatch(listProducts('', pageNumber))
     }
     
-  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct])
+  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct, pageNumber])
 
   const createProductHandler = () => {
     dispatch(createProduct())
@@ -82,6 +85,7 @@ export const ProductListPages = ({ history, match }) => {
         : error
         ? (<Message variant='danger'>{error}</Message>)
         : (
+          <>
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
@@ -121,6 +125,9 @@ export const ProductListPages = ({ history, match }) => {
               ))}
             </tbody>
           </Table>
+          
+          <Paginate page={page} pages={pages} isAdmin={true} />
+          </>
         )
       }
     </>
