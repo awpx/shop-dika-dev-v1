@@ -14,10 +14,39 @@ h4 {
     padding: 5px 0;
 }
 
+h5 {
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
 .subtotal {
     padding: 25px 0;
 }
 
 .rating span:last-child {
     margin-left: 12px;
+}
+
+/* carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+.carousel-caption {
+  position: absolute;
+  top: 0;
+}
+
+.carousel-caption h5 {
+  color: #fff;
+}
+
+.carousel img {
+  height: 350px;
+  padding: 30px;
+  margin: 40px;
+}
+.carousel a {
+  margin: 0 auto;
 }
