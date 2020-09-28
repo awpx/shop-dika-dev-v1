@@ -23,10 +23,6 @@ app.use(express.json())
 
 connectDB()
 
-app.get('/', (req, res) => {
-  res.send('api services running')
-})
-
 //routes
 app.use('/api/v1/products', productRoutes)
 app.use('/api/v1/users', userRoutes)
@@ -41,6 +37,20 @@ app.get('/api/v1/config/paypal', (req, res) => {
 //static
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+//production build
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/build')))
+
+  app.get('*', (req, res) => 
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  )
+
+} else {
+  app.get('/', (req, res) => {
+    res.send('api services running')
+  })
+}
 
 //middleware error handler
 app.use(notFound)
