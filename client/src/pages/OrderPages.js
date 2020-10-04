@@ -48,7 +48,7 @@ export const OrderPages = ({ match, history }) => {
 
     //====================
 
-    if(!order || successPay || successDeliver) {
+    if(!order || order._id !== orderId || successPay || successDeliver) {
       dispatch({type: ORDER_PAY_RESET})
       dispatch({type: ORDER_DELIVER_RESET})
       dispatch(getOrderDetails(orderId))
