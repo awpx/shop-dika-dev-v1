@@ -9,4 +9,4 @@
 - JWT 
 - Paypall Sandbox
 
-Live Demo [Click Here](https://shop.dika.dev)
+Live Demo [Click Here](https://awpshop.onrender.com/)
