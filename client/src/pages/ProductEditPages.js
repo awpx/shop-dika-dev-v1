@@ -8,6 +8,7 @@ import Message from '../components/Message'
 import { FormContainer } from '../components/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions' 
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import {HOST} from '../config'
 
 export const ProductEditPages = ({ match, history }) => {
   const productId = match.params.id
@@ -64,7 +65,7 @@ export const ProductEditPages = ({ match, history }) => {
         headers: { 'Content-Type': 'multipart/form-data' }
       }
 
-      const { data } = await axios.post('/api/v1/upload', formData, config)
+      const { data } = await axios.post(`${HOST}/api/v1/upload`, formData, config)
 
       setImage(data)
       setUploading(false)

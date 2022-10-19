@@ -1,0 +1,1 @@
+export const HOST = `https://awpshop-backend.onrender.com`

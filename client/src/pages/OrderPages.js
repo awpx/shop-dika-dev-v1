@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import {HOST} from '../config'
 import { Link } from 'react-router-dom'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap'
@@ -35,7 +36,7 @@ export const OrderPages = ({ match, history }) => {
 
     //paypal
     const addPaypalScript = async () => {
-      const { data: clientId } = await axios.get('/api/v1/config/paypal')
+      const { data: clientId } = await axios.get(`${HOST}/api/v1/config/paypal`)
       const script = document.createElement('script')
       script.type = 'text/javascript'
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
